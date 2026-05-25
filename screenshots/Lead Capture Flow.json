@@ -1,0 +1,217 @@
+{
+  "name": "Lead Capture Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/submit-lead",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "26e03da4-1193-45f3-af50-d0e59930da02",
+      "name": "Webhook",
+      "webhookId": "f06b238a-49f3-4396-b8a0-8d03b105ee2b"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/1K9BgzOE7YHO7SZlKtuv6dmLJdhzGO6fEnVMFnMtTZTs/edit?gid=0#gid=0",
+          "__regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Form Responses",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ new Date().toLocaleString() }}",
+            "Full Name": "={{ $json.body[\"Full Name\"] }}",
+            "Phone Number": "={{ $json.body[\"Phone Number\"] }}",
+            "Email address": "={{ $json.body[\"Email address\"] }}"
+          },
+          "matchingColumns": [
+            "Full Name"
+          ],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4f6e2c8c-f94c-4bcd-a17e-542e31e13fbe",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "irFcAMdZRjPTKIHl",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "leenwangari@gmail.com",
+        "subject": "=New Lead: {{ $json.body.Name }}",
+        "message": "=New lead captured!  Name: {{ $json.body.Name }} Email: {{ $json.body.Email }} Phone: {{ $json.body.Phone }}  Check your Google Sheet for full details.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "74df36e1-a40c-4ae9-a02d-c9d4eac65666",
+      "name": "Send a message",
+      "webhookId": "e0160b7d-77f0-4be4-ae7b-72f6c693946e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "8wOrIkFpK536Jskl",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "ruenbaby.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (compatible; Google-Apps-Script; beanserver; +https://script.google.com; id: UAEmdDd-DEE5eq9uIjSaievpEWlp3P9LjqRA)",
+            "content-length": "97",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "107.178.193.106",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a0145c12ae26afe7-ATL",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "107.178.193.106, 104.22.56.7",
+            "x-forwarded-host": "ruenbaby.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-75-6c7789cbbb-ndbbt",
+            "x-is-trusted": "yes",
+            "x-real-ip": "107.178.193.106"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Full Name": "Butes Githinji",
+            "Email address": "babynesh82@gmail.com",
+            "Phone Number": "0708400334"
+          },
+          "webhookUrl": "https://ruenbaby.app.n8n.cloud/webhook/submit-lead",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "c7523b52-b513-4730-a2f9-77355b8bc8bf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9c5401c0808bc25d20259998644ffa7abe37b2a76dd83e13ff65f4edbb5d6d7c"
+  },
+  "id": "UGF4GUDu43nZGIp1",
+  "tags": []
+}

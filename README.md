@@ -21,15 +21,9 @@ Tools Used
 https://docs.google.com/forms/d/e/1FAIpQLSc_mBBxDDk2o0J2UeJuMEvla8RF8ru6W7ZYePVX8ZSblpezmg/viewform
 
 Screenshots
-
 Workflow in n8n
-![n8n workflow](screenshots/n8n-workflow.png)
-
 Google Sheet with Data
-![Google Sheet](screenshots/google-sheet.png)
-
 Email Notification
-![Email alert](screenshots/email-alert.png)
 
 What I Learned
 - Connecting Google Forms to external webhooks using Apps Script
